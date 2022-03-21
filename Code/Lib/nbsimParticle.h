@@ -11,13 +11,13 @@ namespace nbsim
 class Particle
 {
 private:
-    Eigen::Vector3d position;
-    Eigen::Vector3d velocity;
+    Eigen::Vector3d _position;
+    Eigen::Vector3d _velocity;
     
 public:
 
     // Constructor:
-    Particle(Eigen::Vector3d position, Eigen::Vector3d velocity);
+    Particle(Eigen::Vector3d _position, Eigen::Vector3d _velocity);
     
     // Deconstrutor:
     ~Particle();

@@ -15,8 +15,11 @@
 #include "catch.hpp"
 #include "nbsimCatchMain.h"
 #include "nbsimMyFunctions.h"
+#include "nbsimParticle.h"
 #include <iostream>
 #include <vector>
+#include <Eigen/Dense>
+
 
 TEST_CASE( "My first test", "[some group identifier]" ) {
   int a = 5;
@@ -31,3 +34,75 @@ TEST_CASE( "My second test", "[some group identifier]" ) {
 TEST_CASE( "Simple add", "[MyFirstAddFunction]") {
   REQUIRE( nbsim::MyFirstAddFunction(1, 2) == 3);
 }
+
+// ------ //
+// Testing for Task 1:
+TEST_CASE( "Test a: No acceleration", "[Particle]") {
+
+  Eigen::Vector3d a(0,0,0);
+
+  Eigen::Vector3d p(0,0,0);
+  Eigen::Vector3d v(1,1,1);
+
+  Eigen::Vector3d p2(0.01,0.01,0.01);
+  Eigen::Vector3d v2(1,1,1);
+
+  nbsim::Particle particle_a(p,v);
+  double dt = 0.01;
+  
+  REQUIRE(particle_a.getPosition().isApprox(p));
+  REQUIRE(particle_a.getVelocity().isApprox(v));
+
+  particle_a.integrateTimestep(a,dt);
+  REQUIRE(particle_a.getPosition().isApprox(p2));
+  REQUIRE(particle_a.getVelocity().isApprox(v2));
+}
+
+TEST_CASE( "Test b: Constant acceleration", "[Particle]") {
+
+  Eigen::Vector3d a(1,1,1);
+
+  Eigen::Vector3d p(0,0,0);
+  Eigen::Vector3d v(1,1,1);
+
+  Eigen::Vector3d p2(0.01,0.01,0.01);
+  Eigen::Vector3d v2(1.01,1.01,1.01);
+
+  nbsim::Particle particle_b(p,v);
+  double dt = 0.01;
+
+  particle_b.integrateTimestep(a,dt);
+  REQUIRE(particle_b.getPosition().isApprox(p2));
+  REQUIRE(particle_b.getVelocity().isApprox(v2));
+
+  Eigen::Vector3d p3(0.0201,0.0201,0.0201);
+  Eigen::Vector3d v3(1.02,1.02,1.02);
+ 
+  particle_b.integrateTimestep(a,dt);
+  REQUIRE(particle_b.getPosition().isApprox(p3));
+  REQUIRE(particle_b.getVelocity().isApprox(v3));
+}
+
+TEST_CASE( "Test c: Fictitious centripetal acceleration", "[Particle]") {
+
+  Eigen::Vector3d p(0,0,0);
+  Eigen::Vector3d v(1,1,1);
+
+  nbsim::Particle particle_c(p,v);
+  double dt = 0.1;
+  double time = 0.3;
+
+  for(double i=0;i<time;i+=dt){
+    Eigen::Vector3d a = -particle_c.getPosition();
+    particle_c.integrateTimestep(a,dt);
+  }
+
+  Eigen::Vector3d p1(0.299,0.299,0.299);
+  Eigen::Vector3d v1(0.97,0.97,0.97);
+
+  REQUIRE(particle_c.getPosition().isApprox(p1));
+  REQUIRE(particle_c.getVelocity().isApprox(v1));
+
+
+}
+
