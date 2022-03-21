@@ -41,54 +41,54 @@ TEST_CASE( "Test a: No acceleration", "[Particle]") {
 
   Eigen::Vector3d a(0,0,0);
 
-  Eigen::Vector3d p(0,0,0);
-  Eigen::Vector3d v(1,1,1);
+  Eigen::Vector3d p_test(0,0,0);
+  Eigen::Vector3d v_test(1,1,1);
 
-  Eigen::Vector3d p2(0.01,0.01,0.01);
-  Eigen::Vector3d v2(1,1,1);
+  Eigen::Vector3d p_expect(0.01,0.01,0.01);
+  Eigen::Vector3d v_expect(1,1,1);
 
-  nbsim::Particle particle_a(p,v);
+  nbsim::Particle particle_a(p_test,v_test);
   double dt = 0.01;
   
-  REQUIRE(particle_a.getPosition().isApprox(p));
-  REQUIRE(particle_a.getVelocity().isApprox(v));
+  REQUIRE(particle_a.getPosition().isApprox(p_test));
+  REQUIRE(particle_a.getVelocity().isApprox(v_test));
 
   particle_a.integrateTimestep(a,dt);
-  REQUIRE(particle_a.getPosition().isApprox(p2));
-  REQUIRE(particle_a.getVelocity().isApprox(v2));
+  REQUIRE(particle_a.getPosition().isApprox(p_expect));
+  REQUIRE(particle_a.getVelocity().isApprox(v_expect));
 }
 
 TEST_CASE( "Test b: Constant acceleration", "[Particle]") {
 
   Eigen::Vector3d a(1,1,1);
 
-  Eigen::Vector3d p(0,0,0);
-  Eigen::Vector3d v(1,1,1);
+  Eigen::Vector3d p_test(0,0,0);
+  Eigen::Vector3d v_test(1,1,1);
 
-  Eigen::Vector3d p2(0.01,0.01,0.01);
-  Eigen::Vector3d v2(1.01,1.01,1.01);
+  Eigen::Vector3d p_expect1(0.01,0.01,0.01);
+  Eigen::Vector3d v_expect1(1.01,1.01,1.01);
 
-  nbsim::Particle particle_b(p,v);
+  nbsim::Particle particle_b(p_test,v_test);
   double dt = 0.01;
 
   particle_b.integrateTimestep(a,dt);
-  REQUIRE(particle_b.getPosition().isApprox(p2));
-  REQUIRE(particle_b.getVelocity().isApprox(v2));
+  REQUIRE(particle_b.getPosition().isApprox(p_expect1));
+  REQUIRE(particle_b.getVelocity().isApprox(v_expect1));
 
-  Eigen::Vector3d p3(0.0201,0.0201,0.0201);
-  Eigen::Vector3d v3(1.02,1.02,1.02);
+  Eigen::Vector3d p_expect2(0.0201,0.0201,0.0201);
+  Eigen::Vector3d v_expect2(1.02,1.02,1.02);
  
   particle_b.integrateTimestep(a,dt);
-  REQUIRE(particle_b.getPosition().isApprox(p3));
-  REQUIRE(particle_b.getVelocity().isApprox(v3));
+  REQUIRE(particle_b.getPosition().isApprox(p_expect2));
+  REQUIRE(particle_b.getVelocity().isApprox(v_expect2));
 }
 
 TEST_CASE( "Test c: Fictitious centripetal acceleration", "[Particle]") {
 
-  Eigen::Vector3d p(0,0,0);
-  Eigen::Vector3d v(1,1,1);
+  Eigen::Vector3d p_test(0,0,0);
+  Eigen::Vector3d v_test(1,1,1);
 
-  nbsim::Particle particle_c(p,v);
+  nbsim::Particle particle_c(p_test,v_test);
   double dt = 0.1;
   double time = 0.3;
 
@@ -97,11 +97,11 @@ TEST_CASE( "Test c: Fictitious centripetal acceleration", "[Particle]") {
     particle_c.integrateTimestep(a,dt);
   }
 
-  Eigen::Vector3d p1(0.299,0.299,0.299);
-  Eigen::Vector3d v1(0.97,0.97,0.97);
+  Eigen::Vector3d p_expect(0.299,0.299,0.299);
+  Eigen::Vector3d v_expect(0.97,0.97,0.97);
 
-  REQUIRE(particle_c.getPosition().isApprox(p1));
-  REQUIRE(particle_c.getVelocity().isApprox(v1));
+  REQUIRE(particle_c.getPosition().isApprox(p_expect));
+  REQUIRE(particle_c.getVelocity().isApprox(v_expect));
 
 
 }
