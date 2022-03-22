@@ -7,16 +7,18 @@
 #include <set>
 #include <vector>
 
+#define G 6.67408e-11;
+
 namespace nbsim
 {
 
 // Particle Class
 class MassiveParticle : public Particle
 {
-private:
+protected:
 
     double _mass;
-    Eigen::Vector3d _acceletarion;
+    Eigen::Vector3d _acceleration;
     std::set<std::shared_ptr<MassiveParticle>> Attractors;
     
 public:

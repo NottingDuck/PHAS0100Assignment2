@@ -10,7 +10,7 @@ namespace nbsim
 // Particle Class
 class Particle
 {
-private:
+protected:
     Eigen::Vector3d _position;
     Eigen::Vector3d _velocity;
     

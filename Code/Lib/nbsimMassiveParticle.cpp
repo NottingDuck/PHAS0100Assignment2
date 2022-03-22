@@ -1,11 +1,10 @@
 #include "nbsimMassiveParticle.h"
 
-#define G 6.67408e-11;
-
 namespace nbsim {
 
     MassiveParticle::MassiveParticle(Eigen::Vector3d position, Eigen::Vector3d velocity, double mass): Particle(position,velocity){
-        _mass = mass; 
+        _mass = mass;
+
     };
     
     // Deconstrutor:
@@ -29,12 +28,12 @@ namespace nbsim {
             acceleration+= -attractor->getMu()/r_i.dot(r_i)*r_i.normalized();
         }
 
-        _acceletarion = acceleration;
+        _acceleration = acceleration;
     };
 
     void MassiveParticle::integrateTimestep(double timestep){
-        getPosition() += getVelocity() * timestep;
-        getVelocity() += _acceletarion * timestep; 
+        _position += _velocity * timestep;
+        _velocity += _acceleration * timestep; 
     };
 
 
