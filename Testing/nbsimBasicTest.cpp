@@ -158,5 +158,3 @@ TEST_CASE( "Test b: With gravitationally attractors", "[MassiveParticle]") {
   double error_expect = std::abs(distance-2);
   REQUIRE(error_expect <= 0.01);
 }
-
-

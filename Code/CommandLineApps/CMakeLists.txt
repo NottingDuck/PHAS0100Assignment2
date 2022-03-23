@@ -20,3 +20,12 @@ foreach(_app ${_command_line_apps})
   add_executable(${_app} ${_app}.cpp)
   target_link_libraries(${_app} ${PHAS0100ASSIGNMENT2_LIBRARIES} ${ALL_THIRD_PARTY_LIBRARIES})
 endforeach()
+
+set(_command_line_apps2
+  solarSystemSimulator
+)
+
+foreach(_app2 ${_command_line_apps2})
+  add_executable(${_app2} ${_app2}.cpp)
+  target_link_libraries(${_app2} ${PHAS0100ASSIGNMENT2_LIBRARIES} ${ALL_THIRD_PARTY_LIBRARIES})
+endforeach()
