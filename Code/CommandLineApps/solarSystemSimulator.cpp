@@ -73,13 +73,20 @@ int main(int argc, char** argv)
         // Add the attractor:
         for(int i=0;i<NPLANETS;i++){
             for(int j=0;j<NPLANETS;j++){
-                planet[i]->addAttractor(planet[j]);
-                
-                if(i == j){
-                    planet[i]->removeAttractor(planet[j]);
+                if(i != j){
+                    planet[i]->addAttractor(planet[j]);
                 }
             }
         }
+
+        // At the begining: calculate the Energy
+        planet[0]->addAttractor(planet[0]); // add itself
+    
+        planet[0]->calculateEtotal();
+        std::cout<<"The kinetic energy of system is: "<<planet[0]->getEkinetic()<<"\n";
+        std::cout<<"The potential Energy of system is: "<<planet[0]->getEpotential()<<"\n";
+        std::cout<<"The Total Energy of system is: "<<planet[0]->getEtotal()<<"\n";
+        planet[0]->removeAttractor(planet[0]); // remove itself
 
         // Outer time:
         for (double t = 0;t<totalTime;t+=step_size){
@@ -99,6 +106,16 @@ int main(int argc, char** argv)
             std::cout<<name[i] <<":\n Original Position: \n"<<nbsim::solarSystemData.at(i).position<<"\n";
             std::cout<<" Current Position: \n"<<planet[i]->getPosition()<<"\n\n";
         }
+
+        // Calculate the System Energy:
+        planet[0]->addAttractor(planet[0]); // add itself
+        
+        planet[0]->calculateEtotal();
+        std::cout<<"The Kinetic Energy of system is: "<<planet[0]->getEkinetic()<<"\n";
+        std::cout<<"The Potential Energy of system is: "<<planet[0]->getEpotential()<<"\n";
+        std::cout<<"The Total Energy of system is: "<<planet[0]->getEtotal()<<"\n";
+        
+        planet[0]->removeAttractor(planet[0]); // remove itself
 
         return 1;
     }

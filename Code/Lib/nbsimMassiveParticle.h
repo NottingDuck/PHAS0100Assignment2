@@ -20,7 +20,12 @@ protected:
     double _mass;
     Eigen::Vector3d _acceleration;
     std::set<std::shared_ptr<MassiveParticle>> Attractors;
-    
+
+    // Energy
+    double _Ekinetic;
+    double _Epotential;
+    double _Etotal;
+
 public:
 
     // Constructor:
@@ -35,6 +40,14 @@ public:
     void calculateAcceleration();
     void integrateTimestep(double timestep);
 
+    // Energy:
+    void calculateEkinetic();
+    void calculateEpotential();
+    void calculateEtotal();
+
+    double getEkinetic() const;
+    double getEpotential() const;
+    double getEtotal() const;
 };
 
 
