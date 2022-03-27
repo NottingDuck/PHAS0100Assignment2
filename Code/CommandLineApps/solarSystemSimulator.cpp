@@ -12,6 +12,7 @@
 #include <nbsimSolarSystemData.ipp>
 #include <iostream>
 #include <Eigen/Dense>
+#include <chrono>
 
 // Example, header-only library, included in project for simplicity's sake.
 
@@ -83,10 +84,18 @@ int main(int argc, char** argv)
         planet[0]->addAttractor(planet[0]); // add itself
     
         planet[0]->calculateEtotal();
+        std::cout<<"Beginning:"<<"\n";
         std::cout<<"The kinetic energy of system is: "<<planet[0]->getEkinetic()<<"\n";
         std::cout<<"The potential Energy of system is: "<<planet[0]->getEpotential()<<"\n";
         std::cout<<"The Total Energy of system is: "<<planet[0]->getEtotal()<<"\n";
         planet[0]->removeAttractor(planet[0]); // remove itself
+
+
+        // Benchmark the time of the solar system: Begin
+        std::clock_t c_start = std::clock();
+        auto t_start = std::chrono::high_resolution_clock::now();
+
+
 
         // Outer time:
         for (double t = 0;t<totalTime;t+=step_size){
@@ -101,6 +110,11 @@ int main(int argc, char** argv)
             }
         }
 
+        // Benchmark the time of the solar system: End
+        std::clock_t c_end = std::clock();
+        auto t_end = std::chrono::high_resolution_clock::now();
+
+
         // Summarising the position:
         for(int i=0;i<NPLANETS;i++){
             std::cout<<name[i] <<":\n Original Position: \n"<<nbsim::solarSystemData.at(i).position<<"\n";
@@ -111,11 +125,19 @@ int main(int argc, char** argv)
         planet[0]->addAttractor(planet[0]); // add itself
         
         planet[0]->calculateEtotal();
+        std::cout<<"End:"<<"\n";
         std::cout<<"The Kinetic Energy of system is: "<<planet[0]->getEkinetic()<<"\n";
         std::cout<<"The Potential Energy of system is: "<<planet[0]->getEpotential()<<"\n";
         std::cout<<"The Total Energy of system is: "<<planet[0]->getEtotal()<<"\n";
         
         planet[0]->removeAttractor(planet[0]); // remove itself
+
+        // Benchmark and output the time:
+        std::cout<<"\nThe run time is: "
+                 <<1000.0*(c_end - c_start)/CLOCKS_PER_SEC<<" ms\n"
+                 <<"Wall clock time passed: "
+                 <<std::chrono::duration<double, std::milli>(t_end-t_start).count()<<" ms\n";
+
 
         return 1;
     }
