@@ -2,16 +2,15 @@
 
 namespace nbsim {
 
-    MassiveParticle::MassiveParticle(Eigen::Vector3d position, Eigen::Vector3d velocity, double mass): Particle(position,velocity){
-        _mass = mass;
-
+    MassiveParticle::MassiveParticle(Eigen::Vector3d position, Eigen::Vector3d velocity, double mu): Particle(position,velocity){
+        _mu = mu;
     };
     
     // Deconstrutor:
     MassiveParticle::~MassiveParticle(){}
 
     double MassiveParticle::getMu(){
-        return _mass*G;
+        return _mu;
     };
 
     void MassiveParticle::addAttractor(std::shared_ptr<MassiveParticle> attractor){

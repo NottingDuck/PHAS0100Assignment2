@@ -135,10 +135,9 @@ TEST_CASE( "Test b: With gravitationally attractors", "[MassiveParticle]") {
   Eigen::Vector3d v_2(0,-0.5,0);
 
   double mu = 1;
-  double mass = mu/G;
 
-  std::shared_ptr<nbsim::MassiveParticle> attractor_ptr1(new nbsim::MassiveParticle(p_1,v_1,mass));
-  std::shared_ptr<nbsim::MassiveParticle> attractor_ptr2(new nbsim::MassiveParticle(p_2,v_2,mass));
+  std::shared_ptr<nbsim::MassiveParticle> attractor_ptr1(new nbsim::MassiveParticle(p_1,v_1,mu));
+  std::shared_ptr<nbsim::MassiveParticle> attractor_ptr2(new nbsim::MassiveParticle(p_2,v_2,mu));
 
   attractor_ptr1 -> addAttractor(attractor_ptr2);
   attractor_ptr2 -> addAttractor(attractor_ptr1);
