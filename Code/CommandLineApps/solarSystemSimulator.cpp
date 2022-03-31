@@ -96,14 +96,20 @@ int main(int argc, char** argv)
         auto t_start = std::chrono::high_resolution_clock::now();
 
 
+        // Parallel:
+        omp_set_num_threads (8);
 
+        #pragma omp parallel
         // Outer time:
         for (double t = 0;t<totalTime;t+=step_size){
+            
             // Loop 1: Acceleration:
+            #pragma omp for
             for (int i=0;i<NPLANETS;i++){
                 planet[i]->calculateAcceleration();
             }
             // Loop 2: intergateTimestep:
+            #pragma omp for
             for (int i=0;i<NPLANETS;i++){
                 planet[i]->integrateTimestep(step_size);
 

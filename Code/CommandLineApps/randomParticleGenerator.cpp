@@ -81,16 +81,28 @@ int main(int argc, char** argv)
         std::clock_t c_start = std::clock();
         auto t_start = std::chrono::high_resolution_clock::now();
 
-        // Outer time:
-        for (double t = 0;t<totalTime;t+=step_size){
-            // Loop 1: Acceleration:
-            for (int i=0;i<NParticles;i++){
-                ListParticles[i]->calculateAcceleration();
-            }
-            // Loop 2: intergateTimestep:
-            for (int i=0;i<NParticles;i++){
-                ListParticles[i]->integrateTimestep(step_size);
 
+        // Parallel:
+        omp_set_num_threads (8);
+
+        #pragma omp parallel
+        {
+
+            // Outer time:
+            for (double t = 0;t<totalTime;t+=step_size){
+                // Loop 1: Acceleration:
+                
+                #pragma omp for
+                for (int i=0;i<NParticles;i++){
+                    ListParticles[i]->calculateAcceleration();
+                }
+                // Loop 2: intergateTimestep:
+                
+                #pragma omp for
+                for (int i=0;i<NParticles;i++){
+                    ListParticles[i]->integrateTimestep(step_size);
+
+                }
             }
         }
 
