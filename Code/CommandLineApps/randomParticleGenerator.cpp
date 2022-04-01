@@ -66,24 +66,13 @@ int main(int argc, char** argv)
             }
         }
 
-        // At the begining: calculate the Energy
-        ListParticles[0]->addAttractor(ListParticles[0]); // add itself
-    
-        ListParticles[0]->calculateEtotal();
-        std::cout<<"Beginning:"<<"\n";
-        std::cout<<"The kinetic energy of system is: "<<ListParticles[0]->getEkinetic()<<"\n";
-        std::cout<<"The potential Energy of system is: "<<ListParticles[0]->getEpotential()<<"\n";
-        std::cout<<"The Total Energy of system is: "<<ListParticles[0]->getEtotal()<<"\n";
-        ListParticles[0]->removeAttractor(ListParticles[0]); // remove itself
-
-
         // Benchmark the time of the solar system: Begin
         std::clock_t c_start = std::clock();
         auto t_start = std::chrono::high_resolution_clock::now();
 
 
         // Parallel:
-        omp_set_num_threads (8);
+        omp_set_num_threads (16);
 
         #pragma omp parallel
         {
@@ -109,17 +98,6 @@ int main(int argc, char** argv)
         // Benchmark the time of the solar system: End
         std::clock_t c_end = std::clock();
         auto t_end = std::chrono::high_resolution_clock::now();
-
-        // Calculate the System Energy:
-        ListParticles[0]->addAttractor(ListParticles[0]); // add itself
-        
-        ListParticles[0]->calculateEtotal();
-        std::cout<<"End:"<<"\n";
-        std::cout<<"The Kinetic Energy of system is: "<<ListParticles[0]->getEkinetic()<<"\n";
-        std::cout<<"The Potential Energy of system is: "<<ListParticles[0]->getEpotential()<<"\n";
-        std::cout<<"The Total Energy of system is: "<<ListParticles[0]->getEtotal()<<"\n";
-        
-        ListParticles[0]->removeAttractor(ListParticles[0]); // remove itself
 
         // Benchmark and output the time:
         std::cout<<"\nThe run time is: "

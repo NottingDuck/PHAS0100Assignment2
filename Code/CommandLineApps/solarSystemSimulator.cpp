@@ -91,7 +91,7 @@ int main(int argc, char** argv)
         planet[0]->removeAttractor(planet[0]); // remove itself
 
 
-        // Benchmark the time of the solar system: Begin
+        // // Benchmark the time of the solar system: Begin
         std::clock_t c_start = std::clock();
         auto t_start = std::chrono::high_resolution_clock::now();
 
